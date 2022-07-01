@@ -1,15 +1,11 @@
-import { getData } from "../repository/repository.js";
-import {
-  createObjectOfCharacter,
-  getListOfCharacterLocation,
-} from "../utils/utils.js";
+import rickAndMortyRepository from "../repository/rickAndMortyRepository.js";
 
 export async function episodeLocationUseCase() {
   const initTime = new Date().getTime();
 
-  const { locations, episodes, characters } = await getData();
+  const { episodes, characters } = await rickAndMortyRepository.getData();
 
-  const objectOfCharacters = createObjectOfCharacter(characters);
+  const objectOfCharacters = getLocationByCharacter(characters);
   const listOfEpisodesWithLocation = episodes.map((episode) => {
     return {
       name: episode.name,
@@ -30,3 +26,29 @@ export async function episodeLocationUseCase() {
     results: listOfEpisodesWithLocation,
   };
 }
+
+function getLocationByCharacter(characters) {
+  return characters.reduce((acum, character) => {
+    acum[character.id] = character.origin.name;
+    return acum;
+  }, {});
+}
+
+const getListOfCharacterLocation = (listOfCharacter, characterLocatios) => {
+  
+  const getCharacterId = (characterUrl) => characterUrl.split("/").slice(-1)[0];
+
+  const getCharacterLocation = (characterUrl) =>
+    characterLocatios[getCharacterId(characterUrl)];
+
+  const existingLocations = {};
+  return listOfCharacter.reduce((acum, character) => {
+    if (existingLocations[getCharacterLocation(character)]) {
+      return acum;
+    } else {
+      existingLocations[getCharacterLocation(character)] = true;
+      acum.push(getCharacterLocation(character));
+      return acum;
+    }
+  }, []);
+};

@@ -1,24 +1,15 @@
-import { getData } from "../repository/repository.js";
+import RickAndMortyRepository from "../repository/rickAndMortyRepository.js";
 import { letterCountInAWord } from "../utils/utils.js";
 
 export async function charCounterUseCase() {
   const initTime = new Date().getTime();
 
-  const { locations, episodes, characters } = await getData();
+  const { locations, episodes, characters } =
+    await RickAndMortyRepository.getData();
 
-  const caracterCountInLocations = locations.reduce(
-    (acum, location) => (acum += letterCountInAWord(location.name, "l")),
-    0
-  );
-
-  const caracterCountInChacters = characters.reduce(
-    (acum, character) => (acum += letterCountInAWord(character.name, "c")),
-    0
-  );
-  const caracterCountInEpisode = episodes.reduce(
-    (acum, episode) => (acum += letterCountInAWord(episode.name, "e")),
-    0
-  );
+  const caracterCountInLocations = countLetterFrom(locations, "l");
+  const caracterCountInChacters = countLetterFrom(characters, "c");
+  const caracterCountInEpisode = countLetterFrom(episodes, "e");
 
   const executionTime = new Date().getTime() - initTime;
 
@@ -44,4 +35,13 @@ export async function charCounterUseCase() {
       },
     ],
   };
+}
+
+function countLetterFrom(array, letter) {
+  const caracterCountInLocations = array.reduce(
+    (acum, location) => (acum += letterCountInAWord(location.name, letter)),
+    0
+  );
+
+  return caracterCountInLocations;
 }
