@@ -1,5 +1,4 @@
-import fetch from "node-fetch";
-
+const fetch = require("node-fetch");
 
 function fetchEpisodes(numberOfPage = 1) {
   return fetch(
@@ -7,7 +6,7 @@ function fetchEpisodes(numberOfPage = 1) {
   ).then((response) => response.json());
 }
 
-export function fetchAllEpisodes() {
+function fetchAllEpisodes() {
   return fetchEpisodes().then(async (firstPage) => {
     const resultsOtherPages = await Promise.all(
       Array(firstPage.info.pages - 1)
@@ -20,3 +19,5 @@ export function fetchAllEpisodes() {
     return [...firstPage.results, ...resultsOtherPages];
   });
 }
+
+module.exports = { fetchAllEpisodes };

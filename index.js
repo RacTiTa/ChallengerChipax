@@ -1,6 +1,8 @@
-import express from "express";
-import { charCounterUseCase } from "./useCase/charCounterUseCase.js";
-import { episodeLocationUseCase } from "./useCase/episodeLocationsUseCase.js";
+const express = require("express");
+const { charCounterUseCase } = require("./useCase/charCounterUseCase.js");
+const {
+  episodeLocationUseCase,
+} = require("./useCase/episodeLocationsUseCase.js");
 
 const app = express();
 const port = 3000;
@@ -17,7 +19,11 @@ app.get("/", async (req, res) => {
     return result;
   };
   const result = await response();
-  res.json(result);
+  res.status(200).json(result);
 });
 
-app.listen(port, () => console.log(`server is runing on port ${port}`));
+const server = app.listen(port, () =>
+  console.log(`server is runing on port ${port}`)
+);
+
+module.exports = { app, server };

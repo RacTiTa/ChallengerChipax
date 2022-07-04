@@ -1,7 +1,7 @@
-import RickAndMortyRepository from "../repository/rickAndMortyRepository.js";
-import { letterCountInAWord } from "../utils/utils.js";
+const RickAndMortyRepository = require("../repository/rickAndMortyRepository.js");
+const { letterCountInAWord } = require("../utils/utils.js");
 
-export async function charCounterUseCase() {
+async function charCounterUseCase() {
   const initTime = new Date().getTime();
 
   const { locations, episodes, characters } =
@@ -45,3 +45,5 @@ function countLetterFrom(array, letter) {
 
   return caracterCountInLocations;
 }
+
+module.exports = { charCounterUseCase };

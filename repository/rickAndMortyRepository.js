@@ -1,6 +1,6 @@
-import { fetchAllCharacters } from "../services/characters.js";
-import { fetchAllEpisodes } from "../services/episodes.js";
-import { fetchAllLocations } from "../services/locations.js";
+const { fetchAllCharacters } = require("../services/characters.js");
+const { fetchAllEpisodes } = require("../services/episodes.js");
+const { fetchAllLocations } = require("../services/locations.js");
 
 let result = false;
 async function getData() {
@@ -19,7 +19,8 @@ async function getData() {
     episodes,
     characters,
   };
+
   return result;
 }
 
-export default { getData };
+module.exports = { getData };

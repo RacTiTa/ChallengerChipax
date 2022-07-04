@@ -1,5 +1,4 @@
-import fetch from "node-fetch";
-
+const fetch = require("node-fetch");
 
 function fetchLocation(numberOfPage = 1) {
   return fetch(
@@ -7,7 +6,7 @@ function fetchLocation(numberOfPage = 1) {
   ).then((response) => response.json());
 }
 
-export function fetchAllLocations() {
+function fetchAllLocations() {
   return fetchLocation(1).then(async (firstPage) => {
     const resultsOtherPages = await Promise.all(
       Array(firstPage.info.pages - 1)
@@ -20,3 +19,5 @@ export function fetchAllLocations() {
     return [...firstPage.results, ...resultsOtherPages];
   });
 }
+
+module.exports = { fetchAllLocations };

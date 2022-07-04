@@ -1,10 +1,9 @@
-import rickAndMortyRepository from "../repository/rickAndMortyRepository.js";
+const rickAndMortyRepository = require("../repository/rickAndMortyRepository.js");
 
-export async function episodeLocationUseCase() {
+async function episodeLocationUseCase() {
   const initTime = new Date().getTime();
 
   const { episodes, characters } = await rickAndMortyRepository.getData();
-
   const objectOfCharacters = getLocationByCharacter(characters);
   const listOfEpisodesWithLocation = episodes.map((episode) => {
     return {
@@ -35,7 +34,6 @@ function getLocationByCharacter(characters) {
 }
 
 const getListOfCharacterLocation = (listOfCharacter, characterLocatios) => {
-  
   const getCharacterId = (characterUrl) => characterUrl.split("/").slice(-1)[0];
 
   const getCharacterLocation = (characterUrl) =>
@@ -52,3 +50,5 @@ const getListOfCharacterLocation = (listOfCharacter, characterLocatios) => {
     }
   }, []);
 };
+
+module.exports = { episodeLocationUseCase };
